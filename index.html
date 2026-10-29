@@ -871,22 +871,49 @@
             let capital = null;
             let interes = null;
             let tasa = null;
-            let tiempoMeses = null;
-            let tiempoDias = null;
 
-            // Extraer montos monetarios $
-            const matchMontos = [...texto.matchAll(/\$\s*([\d,]+(\.\d+)?)/g)].map(m => parseFloat(m[1].replace(/,/g, '')));
+            // Extracción avanzada de montos monetarios $ (soporta puntos de miles en formato español)
+            const matchMontos = [...texto.matchAll(/\$\s*([\d\.,]+)/g)].map(m => {
+                let numStr = m[1];
+                if (numStr.includes('.') && numStr.length - numStr.indexOf('.') === 4) {
+                    numStr = numStr.replace(/\./g, ''); // Ej: $39.875 -> 39875
+                } else if (numStr.includes(',')) {
+                    numStr = numStr.replace(',', '.');
+                }
+                return parseFloat(numStr);
+            });
             
             // Extraer tasa %
             const matchTasa = texto.match(/([\d\.]+)\s*%/);
             if (matchTasa) tasa = parseFloat(matchTasa[1]);
 
-            // Extraer tiempo
-            const matchMeses = texto.match(/(\d+)\s*meses/i);
-            if (matchMeses) tiempoMeses = parseFloat(matchMeses[1]);
+            // Extracción avanzada de tiempo (años, meses, días, texto y decimales)
+            const wordToNum = { 'un': 1, 'una': 1, 'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': 4, 'cinco': 5, 'seis': 6, 'siete': 7, 'ocho': 8, 'nueve': 9, 'diez': 10, 'once': 11, 'doce': 12 };
 
-            const matchDias = texto.match(/(\d+)\s*días/i) || texto.match(/(\d+)\s*dias/i);
-            if (matchDias) tiempoDias = parseFloat(matchDias[1]);
+            let aniosVal = 0;
+            let mesesVal = 0;
+            let diasVal = 0;
+
+            const matchAniosNum = texto.match(/([\d\.]+)\s*(?:años|anos)/i);
+            const matchAniosTxt = texto.match(new RegExp(`(${Object.keys(wordToNum).join('|')})\\s*(?:años|anos)`, 'i'));
+
+            if (matchAniosNum) aniosVal = parseFloat(matchAniosNum[1]);
+            else if (matchAniosTxt) aniosVal = wordToNum[matchAniosTxt[1].toLowerCase()] || 0;
+
+            const matchMesesNum = texto.match(/(\d+)\s*meses/i);
+            const matchMesesTxt = texto.match(new RegExp(`(${Object.keys(wordToNum).join('|')})\\s*meses`, 'i'));
+
+            if (matchMesesNum) mesesVal = parseFloat(matchMesesNum[1]);
+            else if (matchMesesTxt) mesesVal = wordToNum[matchMesesTxt[1].toLowerCase()] || 0;
+
+            const matchDiasNum = texto.match(/(\d+)\s*(?:días|dias)/i);
+            if (matchDiasNum) diasVal = parseFloat(matchDiasNum[1]);
+
+            // Calcular tiempo total en años
+            let totalAnios = null;
+            if (aniosVal > 0 || mesesVal > 0 || diasVal > 0) {
+                totalAnios = aniosVal + (mesesVal / 12) + (diasVal / 360);
+            }
 
             // Detección contextual por palabras clave
             const buscaCapital = /qué capital|cuál es el capital|cuanto dinero se invirtio|capital inicial/i.test(texto);
@@ -894,7 +921,7 @@
             const buscaTiempo = /en cuántos días|en cuánto tiempo|cuántos meses/i.test(texto);
             const buscaMonto = /con cuánto se cancela|monto acumulado|monto final/i.test(texto);
 
-            let incognita = "Interés Generado (I)";
+            let incognita = "Tasa de Interés (i)";
             let tema = "Interés Simple";
             let pasosHTML = "";
             let resultadoFinal = "";
@@ -903,14 +930,14 @@
                 incognita = "Capital Inicial (C)";
                 interes = matchMontos[0] || 3500;
                 tasa = tasa || 7.5;
-                const n_anios = tiempoMeses ? (tiempoMeses / 12) : 1.5;
+                const n_anios = totalAnios !== null ? totalAnios : 1.5;
                 const i_dec = tasa / 100;
                 const resC = interes / (i_dec * n_anios);
 
                 pasosHTML = `
-                    <p>1. <strong>Datos identificados:</strong> Interés ($I$) = $${interes}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${tiempoMeses || 18} meses (${n_anios} años).</p>
+                    <p>1. <strong>Datos identificados:</strong> Interés ($I$) = $${interes}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_anios.toFixed(4)} años.</p>
                     <p>2. <strong>Fórmula aplicada:</strong> $$C = \\frac{I}{i \\cdot n}$$</p>
-                    <p>3. <strong>Sustitución:</strong> $$C = \\frac{${interes}}{${i_dec} \\times ${n_anios}} = \\$${resC.toFixed(2)}$$</p>
+                    <p>3. <strong>Sustitución:</strong> $$C = \\frac{${interes}}{${i_dec} \\times ${n_anios.toFixed(4)}} = \\$${resC.toFixed(2)}$$</p>
                 `;
                 resultadoFinal = `$${resC.toFixed(2)} USD`;
 
@@ -927,21 +954,19 @@
                     <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Interés ($I$) = $${interes}$, Tasa ($i$) = ${tasa}% anual.</p>
                     <p>2. <strong>Fórmula aplicada:</strong> $$n = \\frac{I}{C \\cdot i}$$</p>
                     <p>3. <strong>Sustitución en Años:</strong> $$n = \\frac{${interes}}{${capital} \\times ${i_dec}} = ${n_anios.toFixed(4)} \\text{ años}$$</p>
-                    <p>4. <strong>Conversión a Días Comerciales:</strong> $$${n_anios.toFixed(4)} \\times 360 = ${Math.round(n_dias)} \\text{ días}$$</p>
                 `;
-                resultadoFinal = `${Math.round(n_dias)} días`;
+                resultadoFinal = `${n_anios.toFixed(2)} años`;
 
             } else if (buscaTasa) {
                 incognita = "Tasa de Interés (i)";
-                capital = matchMontos[0] || 17500;
-                interes = matchMontos[1] || 750;
-                const n_dias = tiempoDias || 65;
-                const n_anios = n_dias / 360;
+                capital = matchMontos[0] || 110000;
+                interes = matchMontos[1] || 39875;
+                const n_anios = totalAnios !== null ? totalAnios : 2.4167; // 2 años y 5 meses
                 const i_dec = interes / (capital * n_anios);
                 const i_pct = i_dec * 100;
 
                 pasosHTML = `
-                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Interés ($I$) = $${interes}$, Tiempo ($n$) = ${n_dias} días (${n_anios.toFixed(4)} años).</p>
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital.toLocaleString('es-EC')}$, Interés ($I$) = $${interes.toLocaleString('es-EC')}$, Tiempo ($n$) = ${aniosVal} años y ${mesesVal} meses (${n_anios.toFixed(4)} años).</p>
                     <p>2. <strong>Fórmula aplicada:</strong> $$i = \\frac{I}{C \\cdot n}$$</p>
                     <p>3. <strong>Sustitución en decimal:</strong> $$i = \\frac{${interes}}{${capital} \\times ${n_anios.toFixed(4)}} = ${i_dec.toFixed(6)}$$</p>
                     <p>4. <strong>Conversión a Porcentaje:</strong> $$${i_dec.toFixed(6)} \\times 100 = ${i_pct.toFixed(2)}\\% \\text{ anual}$$</p>
@@ -952,13 +977,12 @@
                 incognita = "Monto Final (M)";
                 capital = matchMontos[0] || 8250;
                 tasa = tasa || 17.5;
-                const n_meses = tiempoMeses || 7;
-                const n_anios = n_meses / 12;
+                const n_anios = totalAnios !== null ? totalAnios : 7/12;
                 const i_dec = tasa / 100;
                 const resM = capital * (1 + (i_dec * n_anios));
 
                 pasosHTML = `
-                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_meses} meses (${n_anios.toFixed(4)} años).</p>
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_anios.toFixed(4)} años.</p>
                     <p>2. <strong>Fórmula aplicada:</strong> $$M = C(1 + i \\cdot n)$$</p>
                     <p>3. <strong>Sustitución:</strong> $$M = ${capital} \\times (1 + (${i_dec} \\times ${n_anios.toFixed(4)})) = \\$${resM.toFixed(2)}$$</p>
                 `;
@@ -968,22 +992,23 @@
                 incognita = "Interés Generado (I)";
                 capital = matchMontos[0] || 1000;
                 tasa = tasa || 15;
-                const n_meses = tiempoMeses || 4;
-                const n_anios = n_meses / 12;
+                const n_anios = totalAnios !== null ? totalAnios : 4/12;
                 const i_dec = tasa / 100;
                 const resI = capital * i_dec * n_anios;
 
                 pasosHTML = `
-                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_meses} meses (${n_anios.toFixed(4)} años).</p>
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_anios.toFixed(4)} años.</p>
                     <p>2. <strong>Fórmula aplicada:</strong> $$I = C \\cdot i \\cdot n$$</p>
                     <p>3. <strong>Sustitución:</strong> $$I = ${capital} \\times ${i_dec} \\times ${n_anios.toFixed(4)} = \\$${resI.toFixed(2)}$$</p>
                 `;
                 resultadoFinal = `$${resI.toFixed(2)} USD`;
             }
 
+            let tiempoStr = totalAnios !== null ? `${aniosVal > 0 ? aniosVal + ' años ' : ''}${mesesVal > 0 ? mesesVal + ' meses' : ''}`.trim() : '-';
+
             document.getElementById('parse-tema').innerText = tema;
             document.getElementById('parse-incognita').innerText = incognita;
-            document.getElementById('parse-valores').innerText = `C=$${capital||'-'} | I=$${interes||'-'} | i=${tasa||'-'}% | n=${tiempoMeses?tiempoMeses+'m':tiempoDias?tiempoDias+'d':'-'}`;
+            document.getElementById('parse-valores').innerText = `C=$${capital||'-'} | I=$${interes||'-'} | i=${tasa||'-'}% | n=${tiempoStr}`;
             document.getElementById('parse-pasos').innerHTML = pasosHTML;
             document.getElementById('parse-resultado').innerText = resultadoFinal;
 
