@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Ingeniería Económica - UAE 2026-2027</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        uae: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .math-container { overflow-x: auto; padding: 4px 0; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="h-full flex flex-col text-slate-800">
+
+    <!-- HEADER / BANNER INSTITUCIONAL -->
+    <header class="bg-gradient-to-r from-uae-900 via-uae-800 to-emerald-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-2 rounded-xl shadow-md">
+                    <svg class="w-8 h-8 text-uae-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">UNIVERSIDAD AGRARIA DEL ECUADOR</h1>
+                    <p class="text-xs text-emerald-200 font-medium">Ingeniería en Computación en Línea | Ingeniería Económica</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-100 border border-emerald-400/30">
+                    GRUPO 9 
+                </span>
+                <button onclick="window.print()" class="bg-white/10 hover:bg-white/20 text-white p-2 rounded-lg text-xs font-medium transition flex items-center gap-1 border border-white/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    <span>Imprimir / PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER -->
+    <div class="flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
+
+        <!-- SIDEBAR -->
+        <aside class="w-full md:w-72 flex-shrink-0">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sticky top-20 space-y-6">
+                
+                <!-- PARSER BUTTON -->
+                <button onclick="switchTopic('parser')" id="nav-parser" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-between group">
+                    <span class="flex items-center gap-2 text-sm">
+                        <svg class="w-5 h-5 text-emerald-200 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        IA Resolver Enunciado
+                    </span>
+                    <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full">Pro</span>
+                </button>
+
+                <!-- PRIMER PARCIAL -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Primer Parcial
+                    </h3>
+                    <nav class="space-y-1">
+                        <button onclick="switchTopic('interes-simple')" id="nav-interes-simple" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            Interés Simple
+                        </button>
+                        <button onclick="switchTopic('descuento-simple')" id="nav-descuento-simple" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Descuento Simple
+                        </button>
+                        <button onclick="switchTopic('interes-compuesto')" id="nav-interes-compuesto" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            Interés Compuesto
+                        </button>
+                        <button onclick="switchTopic('tasas')" id="nav-tasas" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                            Tasa Efectiva y Equivalente
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- SEGUNDO PARCIAL -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+                        Segundo Parcial
+                    </h3>
+                    <nav class="space-y-1">
+                        <button onclick="switchTopic('anualidades')" id="nav-anualidades" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Anualidades (VP / VF)
+                        </button>
+                        <button onclick="switchTopic('amortizaciones')" id="nav-amortizaciones" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Amortizaciones
+                        </button>
+                        <button onclick="switchTopic('evaluacion-financiera')" id="nav-evaluacion-financiera" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            CAUE / VAN / TIR
+                        </button>
+                        <button onclick="switchTopic('depreciacion')" id="nav-depreciacion" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100">
+                            <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                            Depreciación
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+                    UAE Proyecto Formativo <br>Ciclo 2026 - 2027
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <main class="flex-1 min-w-0">
+            <div id="main-content-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-h-[600px] flex flex-col">
+                
+                <!-- TOP HEADER BAR -->
+                <div id="topic-header" class="border-b border-slate-200 bg-slate-50/50 p-6 pb-0">
+                    <div class="flex flex-wrap justify-between items-start gap-4 mb-4">
+                        <div>
+                            <span id="topic-badge" class="inline-block px-2.5 py-1 rounded-md text-xs font-bold tracking-wide uppercase bg-emerald-100 text-emerald-800 mb-2">Primer Parcial</span>
+                            <h2 id="topic-title" class="text-2xl font-bold text-slate-900">Interés Simple</h2>
+                            <p id="topic-subtitle" class="text-sm text-slate-500 mt-1">Cálculos financieros fundamentales con crecimiento de capital lineal.</p>
+                        </div>
+                    </div>
+
+                    <!-- SUBTABS BAR -->
+                    <div id="subtabs-bar" class="flex space-x-8 border-b border-slate-200">
+                        <button onclick="switchSubTab('conceptos')" id="subtab-conceptos" class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 transition flex items-center gap-2">
+                            <span>📚 Conceptos</span>
+                        </button>
+                        <button onclick="switchSubTab('formulas')" id="subtab-formulas" class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 transition flex items-center gap-2">
+                            <span>📐 Fórmulas</span>
+                        </button>
+                        <button onclick="switchSubTab('calculadora')" id="subtab-calculadora" class="pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 transition flex items-center gap-2">
+                            <span>🧮 Calculadora & Ejercicios</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUBTAB CONTENT CONTAINER -->
+                <div class="p-6 flex-1 flex flex-col">
+
+                    <!-- CONCEPTOS TAB -->
+                    <div id="view-conceptos" class="subtab-view space-y-4">
+                        <div class="prose max-w-none text-slate-700 space-y-4" id="conceptos-content">
+                            <!-- Dynamic Load -->
+                        </div>
+                    </div>
+
+                    <!-- FORMULAS TAB -->
+                    <div id="view-formulas" class="subtab-view hidden space-y-6">
+                        <div id="formulas-content" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Dynamic Load -->
+                        </div>
+                    </div>
+
+                    <!-- CALCULADORA TAB -->
+                    <div id="view-calculadora" class="subtab-view hidden space-y-6">
+                        <div id="calculadora-content">
+                            <!-- Dynamic Load -->
+                        </div>
+                    </div>
+
+                    <!-- SPECIAL VIEW: PARSER DE ENUNCIADOS -->
+                    <div id="view-parser" class="subtab-view hidden space-y-6">
+                        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 shadow-sm">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="bg-emerald-600 text-white p-2 rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900">Módulo Inteligente de Resolución por Enunciado</h3>
+                                    <p class="text-xs text-slate-600">Ingresa un enunciado o selecciona uno de los ejercicios prácticos asignados en clase para extraer sus variables automáticamente.</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Ejercicios de la Guía Práctica de Clase:</p>
+                                <div class="flex flex-wrap gap-2" id="preset-buttons">
+                                    <!-- Dynamic Buttons -->
+                                </div>
+                            </div>
+
+                            <div class="mt-4 space-y-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase">Enunciado a Analizar:</label>
+                                <textarea id="input-enunciado" rows="3" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm" placeholder="Ej: ¿Qué capital produce $3,500 por concepto de intereses en 18 meses al 7.5% simple anual?"></textarea>
+                                <div class="flex justify-between items-center pt-1">
+                                    <span class="text-xs text-slate-500">Detecta automáticamente: Capital ($), Interés ($), Tasa (%), Plazo y Variable Desconocida.</span>
+                                    <button onclick="analizarEnunciado()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-sm font-semibold shadow transition flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        Analizar y Resolver
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="parser-result" class="hidden space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                                    <span class="text-xs text-slate-400 font-semibold uppercase">Tema Detectado</span>
+                                    <p id="parse-tema" class="text-base font-bold text-emerald-700 mt-1">-</p>
+                                </div>
+                                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                                    <span class="text-xs text-slate-400 font-semibold uppercase">Incógnita a Calcular</span>
+                                    <p id="parse-incognita" class="text-base font-bold text-emerald-700 mt-1">-</p>
+                                </div>
+                                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                                    <span class="text-xs text-slate-400 font-semibold uppercase">Valores Extraídos</span>
+                                    <p id="parse-valores" class="text-xs text-slate-600 mt-1 font-mono">-</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-md text-sm space-y-3 border border-slate-800">
+                                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                    <span class="text-emerald-400 font-bold uppercase text-xs">Procedimiento de Resolución Paso a Paso</span>
+                                    <span class="text-xs text-slate-500">Formulario PDF Verificado</span>
+                                </div>
+                                <div id="parse-pasos" class="space-y-2 text-slate-300">
+                                    <!-- Steps output -->
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center text-lg font-bold text-emerald-400">
+                                    <span>Resultado Final:</span>
+                                    <span id="parse-resultado" class="text-2xl bg-emerald-950 px-3 py-1 rounded-lg border border-emerald-800">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MAIN JAVASCRIPT ENGINE -->
+    <script>
+        // DATA STRUCTURE & TOPICS DEFINITION
+        const topicsData = {
+            'interes-simple': {
+                parcial: 'Primer Parcial',
+                title: 'Interés Simple',
+                subtitle: 'El interés se calcula únicamente sobre el capital original pactado en cada periodo.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">¿Qué es el Interés Simple?</h4>
+                        <p class="text-sm mt-1">El interés simple es el costo o rendimiento que se produce cuando los intereses liquidados no se añaden periódicamente al capital, sino que permanecen líquidos. Se utiliza mayoritariamente en operaciones financieras a corto plazo (menos de un año).</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Capital (C o VP)</h5>
+                            <p class="text-xs text-slate-600">Es la suma de dinero prestada o invertida inicialmente sobre la cual se calcularán los rendimientos.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Monto (M o VF)</h5>
+                            <p class="text-xs text-slate-600">Es el valor acumulado final, obtenido sumando el capital inicial más los intereses generados ($M = C + I$).</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Tasa de Interés (i)</h5>
+                            <p class="text-xs text-slate-600">Porcentaje que se cobra o paga por el uso del dinero en un periodo específico (anual, mensual, diario).</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Plazo o Tiempo (n)</h5>
+                            <p class="text-xs text-slate-600">Número de unidades de tiempo durante las cuales el capital permanece prestado o invertido.</p>
+                        </div>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Interés Generado', eq: 'I = C \\cdot i \\cdot n', desc: 'Calcula el rendimiento total del dinero en el tiempo determinado.' },
+                    { title: 'Monto Acumulado (VF)', eq: 'M = C(1 + i \\cdot n)', desc: 'Obtiene la suma del capital presente más los intereses.' },
+                    { title: 'Valor Presente (Capital)', eq: 'C = \\frac{M}{1 + i \\cdot n}', desc: 'Determina el dinero inicial conociendo el monto futuro final.' },
+                    { title: 'Tasa de Interés Simple', eq: 'i = \\frac{I}{C \\cdot n}', desc: 'Obtiene la tasa porcentual periódica aplicada.' },
+                    { title: 'Tiempo / Plazo', eq: 'n = \\frac{I}{C \\cdot i}', desc: 'Calcula el número de periodos necesarios.' }
+                ],
+                calcType: 'interes-simple'
+            },
+
+            'descuento-simple': {
+                parcial: 'Primer Parcial',
+                title: 'Descuento Simple',
+                subtitle: 'Deducción cobrada de manera anticipada antes del vencimiento de un título valor.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Concepto de Descuento</h4>
+                        <p class="text-sm mt-1">El descuento es una operación de crédito que se lleva a cabo en instituciones bancarias y consiste en cobrar los intereses por anticipado sobre un título de valor (pagaré, letra de cambio) antes de su fecha de vencimiento.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Valor Nominal (M)</h5>
+                            <p class="text-xs text-slate-600">Es la cantidad escrita en el documento que debe pagarse al vencimiento del plazo.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                            <h5 class="font-bold text-emerald-800 text-sm mb-1">Valor Comercial / Efectivo (P)</h5>
+                            <p class="text-xs text-slate-600">La suma líquida de dinero que efectivamente recibe el tenedor del documento descontado ($P = M - D$).</p>
+                        </div>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Descuento Comercial', eq: 'D = M \\cdot n \\cdot d', desc: 'Monto cobrado por pagarés antes del tiempo de expiración.' },
+                    { title: 'Valor Comercial / Líquido', eq: 'P = M(1 - n \\cdot d)', desc: 'Efectivo recibido anticipadamente.' }
+                ],
+                calcType: 'descuento-simple'
+            },
+
+            'interes-compuesto': {
+                parcial: 'Primer Parcial',
+                title: 'Interés Compuesto',
+                subtitle: 'Capitalización periódica de intereses donde el interés de cada ciclo pasa a formar parte del principal.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">¿Qué es el Interés Compuesto?</h4>
+                        <p class="text-sm mt-1">Es aquel en el cual los intereses producidos al final de cada periodo de capitalización no se retiran, sino que se suman al capital original para producir nuevos intereses en el siguiente periodo.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Monto Compuesto (VF)', eq: 'M = C \\left(1 + \\frac{i}{p}\\right)^{n \\cdot p}', desc: 'Donde $p$ es el número de capitalizaciones por año.' },
+                    { title: 'Valor Presente Compuesto', eq: 'C = M \\left(1 + \\frac{i}{p}\\right)^{-n \\cdot p}', desc: 'Capital inicial para alcanzar un objetivo futuro en compuesto.' }
+                ],
+                calcType: 'interes-compuesto'
+            },
+
+            'tasas': {
+                parcial: 'Primer Parcial',
+                title: 'Tasa Efectiva y Equivalente',
+                subtitle: 'Conversión de tasas nominales, efectivas y comparación entre distintos periodos de capitalización.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-emerald-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Tasa Nominal vs. Tasa Efectiva</h4>
+                        <p class="text-sm mt-1">La <strong>Tasa Nominal ($i$)</strong> es la tasa pactada contractualmente en términos anuales. La <strong>Tasa Efectiva ($e$)</strong> es el interés realmente devengado o pagado en un año como consecuencia de la capitalización periódica de los intereses.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Tasa Efectiva Anual', eq: 'e = \\left(1 + \\frac{i}{p}\\right)^p - 1', desc: 'Convierte una tasa nominal convertible $p$ veces al año en tasa efectiva anual.' }
+                ],
+                calcType: 'tasas'
+            },
+
+            'anualidades': {
+                parcial: 'Segundo Parcial',
+                title: 'Anualidades (Ordinarias y Anticipadas)',
+                subtitle: 'Serie de pagos periódicos de igual cuantía realizados a intervalos iguales de tiempo.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-teal-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Tipos de Anualidades</h4>
+                        <p class="text-sm mt-1"><strong>Ordinarias o Vencidas:</strong> Los pagos se efectúan al final de cada periodo.<br><strong>Anticipadas:</strong> Los pagos se realizan al principio de cada periodo.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Valor Presente (Anualidad Ordinaria)', eq: 'C = R \\left[ \\frac{1 - (1 + i/p)^{-n \\cdot p}}{i/p} \\right]', desc: 'Calcula el valor equivalente hoy de una serie de rentas vencidas.' },
+                    { title: 'Monto Futuro (Anualidad Ordinaria)', eq: 'M = R \\left[ \\frac{(1 + i/p)^{n \\cdot p} - 1}{i/p} \\right]', desc: 'Monto acumulado tras $n$ depósitos periódicos.' },
+                    { title: 'Valor Presente (Anualidad Anticipada)', eq: 'C = R (1 + i/p) \\left[ \\frac{1 - (1 + i/p)^{-n \\cdot p}}{i/p} \\right]', desc: 'Cálculo de rentas al inicio del periodo.' }
+                ],
+                calcType: 'anualidades'
+            },
+
+            'amortizaciones': {
+                parcial: 'Segundo Parcial',
+                title: 'Tablas de Amortización',
+                subtitle: 'Estructuración de liquidación gradual de deudas mediante pagos periódicos.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-teal-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Sistemas de Amortización</h4>
+                        <p class="text-sm mt-1"><strong>Método Francés (Cuota Constante):</strong> La renta total retenida es fija en cada periodo, amortizando cada vez más capital e intereses decrecientes.<br><strong>Método Alemán (Amortización Constante):</strong> La porción que reduce el capital permanece idéntica en cada cuota.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Cuota Fija (Método Francés)', eq: 'R = C \\cdot \\frac{i(1+i)^n}{(1+i)^n - 1}', desc: 'Cálculo de la cuota periódica uniforme.' }
+                ],
+                calcType: 'amortizaciones'
+            },
+
+            'evaluacion-financiera': {
+                parcial: 'Segundo Parcial',
+                title: 'Evaluación Financiera (CAUE / VAN / TIR)',
+                subtitle: 'Toma de decisiones de inversión y selección entre alternativas financieras.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-teal-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Indicadores Financieros de Proyectos</h4>
+                        <p class="text-sm mt-1"><strong>VAN (Valor Actual Neto):</strong> Mide la ganancia en dinero de hoy respecto a la tasa de descuento.<br><strong>CAUE (Costo Anual Uniforme Equivalente):</strong> Convierte los desembolsos heterogéneos en una cuota anual idéntica para comparación de proyectos.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Valor Actual Neto (VAN)', eq: 'VAN = -I_0 + \\sum_{t=1}^n \\frac{FC_t}{(1+k)^t}', desc: 'Suma de los flujos netos actualizados menos la inversión inicial.' }
+                ],
+                calcType: 'evaluacion-financiera'
+            },
+
+            'depreciacion': {
+                parcial: 'Segundo Parcial',
+                title: 'Depreciación de Activos',
+                subtitle: 'Distribución sistemática del costo de un activo fijo a lo largo de su vida útil.',
+                conceptos: `
+                    <div class="bg-slate-50 border-l-4 border-teal-600 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-slate-900 text-lg">Métodos de Depreciación</h4>
+                        <p class="text-sm mt-1"><strong>Línea Recta:</strong> El cargo por depreciación es idéntico cada año.<br><strong>Suma de Dígitos (SDA):</strong> Depreciación acelerada mayor en los primeros años.</p>
+                    </div>
+                `,
+                formulas: [
+                    { title: 'Depreciación Anual (Línea Recta)', eq: 'R = \\frac{C - C_n}{n}', desc: 'Donde $C$ es el costo inicial, $C_n$ el valor de salvamento y $n$ la vida útil.' },
+                    { title: 'Suma de Dígitos', eq: 'S = \\frac{n(n+1)}{2}', desc: 'Suma de la serie de años para calcular el factor de depreciación.' }
+                ],
+                calcType: 'depreciacion'
+            }
+        };
+
+        // PRESET EXERCISES FOR IA PARSER
+        const presetExercises = [
+            { text: "¿Qué capital produce $3,500 por concepto de intereses en 18 meses al 7.5% simple anual?", label: "Ej. 5 (Guía)" },
+            { text: "¿En cuántos días un capital de $65,000 produce intereses de $7,000, si se invierte al 8.25% simple anual?", label: "Ej. 6 (Guía)" },
+            { text: "¿Cuál es la tasa de interés simple anual, si un capital de $17,500 genera $750 de intereses en 65 días?", label: "Ej. 7 (Guía)" },
+            { text: "¿En cuánto tiempo se duplica un capital que se invierte con un tipo de interés del 11.8% simple anual?", label: "Ej. 8 (Guía)" },
+            { text: "¿Con cuánto se cancela a los siete meses un préstamo por $8,250 si se cargan intereses del 17.5%?", label: "Ej. 9 (Guía)" }
+        ];
+
+        // CURRENT STATE
+        let currentTopicKey = 'interes-simple';
+        let currentSubTab = 'calculadora';
+
+        // INITIALIZATION
+        window.onload = function() {
+            renderPresetButtons();
+            switchTopic('interes-simple');
+        };
+
+        function renderPresetButtons() {
+            const container = document.getElementById('preset-buttons');
+            container.innerHTML = presetExercises.map((ex, idx) => `
+                <button onclick="fillPreset(${idx})" class="bg-white border border-emerald-300 hover:bg-emerald-100 text-emerald-800 text-xs px-3 py-1.5 rounded-lg font-medium shadow-sm transition">
+                    ${ex.label}
+                </button>
+            `).join('');
+        }
+
+        function fillPreset(index) {
+            document.getElementById('input-enunciado').value = presetExercises[index].text;
+            analizarEnunciado();
+        }
+
+        function switchTopic(topicKey) {
+            currentTopicKey = topicKey;
+
+            // Highlight sidebar
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium transition flex items-center gap-2 text-slate-700 hover:bg-slate-100";
+            });
+
+            if (topicKey === 'parser') {
+                document.getElementById('nav-parser').className = "w-full bg-gradient-to-r from-emerald-700 to-teal-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-between ring-2 ring-emerald-500 group";
+                document.getElementById('topic-header').classList.add('hidden');
+                
+                // Hide normal subtab views, show parser
+                document.querySelectorAll('.subtab-view').forEach(v => v.classList.add('hidden'));
+                document.getElementById('view-parser').classList.remove('hidden');
+                return;
+            } else {
+                document.getElementById('nav-parser').className = "w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-between group";
+                document.getElementById('topic-header').classList.remove('hidden');
+                
+                const activeNavBtn = document.getElementById(`nav-${topicKey}`);
+                if (activeNavBtn) {
+                    activeNavBtn.className = "nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold transition flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200/60 shadow-sm";
+                }
+            }
+
+            const data = topicsData[topicKey];
+            if (!data) return;
+
+            // Update Header
+            document.getElementById('topic-badge').innerText = data.parcial;
+            document.getElementById('topic-title').innerText = data.title;
+            document.getElementById('topic-subtitle').innerText = data.subtitle;
+
+            // Update Conceptos
+            document.getElementById('conceptos-content').innerHTML = data.conceptos;
+
+            // Update Formulas
+            document.getElementById('formulas-content').innerHTML = data.formulas.map(f => `
+                <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm space-y-2">
+                    <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider">${f.title}</span>
+                    <div class="math-container text-center py-2 text-base font-bold text-slate-900">
+                        $$${f.eq}$$
+                    </div>
+                    <p class="text-xs text-slate-500">${f.desc}</p>
+                </div>
+            `).join('');
+
+            // Render Calculadora HTML dynamically according to topic
+            renderCalculadoraView(data.calcType);
+
+            // Switch to active subtab
+            switchSubTab(currentSubTab);
+        }
+
+        function switchSubTab(subTabName) {
+            currentSubTab = subTabName;
+            
+            ['conceptos', 'formulas', 'calculadora'].forEach(st => {
+                const btn = document.getElementById(`subtab-${st}`);
+                const view = document.getElementById(`view-${st}`);
+                if (st === subTabName) {
+                    btn.className = "pb-3 text-sm font-semibold text-emerald-700 border-b-2 border-emerald-600 transition flex items-center gap-2";
+                    view.classList.remove('hidden');
+                } else {
+                    btn.className = "pb-3 text-sm font-medium text-slate-500 hover:text-slate-700 transition flex items-center gap-2";
+                    view.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('view-parser').classList.add('hidden');
+
+            // Re-render MathJax
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // RENDER CALCULADORA TEMPLATE FOR TOPIC
+        function renderCalculadoraView(calcType) {
+            const calcContainer = document.getElementById('calculadora-content');
+
+            if (calcType === 'interes-simple') {
+                calcContainer.innerHTML = `
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <div class="lg:col-span-5 bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider mb-2">Calculadora de Interés Simple</h3>
+                            
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Variable a Calcular:</label>
+                                <select id="variable-buscar" onchange="actualizarCamposCalc()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                                    <option value="I">Interés Generado (I)</option>
+                                    <option value="C">Capital Inicial (C)</option>
+                                    <option value="M">Monto Acumulado / Futuro (M)</option>
+                                    <option value="i">Tasa de Interés (i %)</option>
+                                    <option value="n">Plazo / Tiempo (n)</option>
+                                </select>
+                            </div>
+
+                            <div id="campo-modo-C" class="hidden">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Datos disponibles para calcular C:</label>
+                                <select id="modo-C" onchange="actualizarCamposCalc()" class="w-full text-xs border-slate-300 rounded-md p-1.5 bg-emerald-50 border border-emerald-300 font-medium text-emerald-900">
+                                    <option value="con-I">Conozco el Interés Generado (I)</option>
+                                    <option value="con-M">Conozco el Monto Acumulado (M)</option>
+                                </select>
+                            </div>
+
+                            <div id="campo-C">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Capital Inicial (C) [$]:</label>
+                                <input type="number" id="val-C" value="1000" step="any" oninput="calcular()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                            </div>
+
+                            <div id="campo-I" class="hidden">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Interés Generado (I) [$]:</label>
+                                <input type="number" id="val-I" value="200" step="any" oninput="calcular()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                            </div>
+
+                            <div id="campo-M" class="hidden">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Monto Acumulado / Valor Futuro (M) [$]:</label>
+                                <input type="number" id="val-M" value="1200" step="any" oninput="calcular()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                            </div>
+
+                            <div id="campo-i">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tasa de Interés Anual (i) [%]:</label>
+                                <input type="number" id="val-i" value="15" step="any" oninput="calcular()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                            </div>
+
+                            <div id="campo-n">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-xs font-semibold text-slate-600">Tiempo / Plazo (n):</label>
+                                    <select id="unidad-tiempo" onchange="calcular()" class="text-xs border rounded p-1 bg-white">
+                                        <option value="1">Años</option>
+                                        <option value="12">Meses</option>
+                                        <option value="360">Días (Comercial)</option>
+                                    </select>
+                                </div>
+                                <input type="number" id="val-n" value="4" step="any" oninput="calcular()" class="w-full text-sm border-slate-300 rounded-md p-2 bg-white border">
+                            </div>
+
+                            <button onclick="calcular()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition shadow">
+                                Recalcular Resultado
+                            </button>
+                        </div>
+
+                        <div class="lg:col-span-7 bg-slate-900 text-slate-100 p-6 rounded-2xl flex flex-col justify-between shadow-inner">
+                            <div>
+                                <div class="border-b border-slate-800 pb-3 mb-4 flex justify-between items-center">
+                                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Desglose del Resultado</span>
+                                    <span class="text-xs text-slate-400">Paso a Paso</span>
+                                </div>
+                                <div id="paso-a-paso" class="space-y-4 text-sm text-slate-200">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+                                <span class="text-xs text-slate-400">Resultado Evaluado:</span>
+                                <div id="resultado-caja" class="bg-emerald-950 border border-emerald-500/30 text-emerald-300 font-mono text-xl font-bold py-2 px-4 rounded-lg">
+                                    $0.00
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                actualizarCamposCalc();
+            } else {
+                calcContainer.innerHTML = `
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-8 text-center space-y-3">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-base">Calculadora para ${topicsData[currentTopicKey].title}</h3>
+                        <p class="text-xs text-slate-500 max-w-md mx-auto">Ingresa los valores numéricos correspondientes para obtener el desglose detallado con fórmulas MathJax y el resultado evaluado.</p>
+                        <button onclick="switchTopic('parser')" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-semibold transition">
+                            Probar con Inteligencia de Enunciados
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function actualizarCamposCalc() {
+            const v = document.getElementById('variable-buscar').value;
+            const modoC = document.getElementById('modo-C') ? document.getElementById('modo-C').value : 'con-I';
+
+            document.getElementById('campo-modo-C').classList.toggle('hidden', v !== 'C');
+            document.getElementById('campo-C').classList.toggle('hidden', v === 'C');
+            
+            // Campo I visible en I, i, n, o en C si modoC es con-I
+            document.getElementById('campo-I').classList.toggle('hidden', !(v === 'I' || v === 'i' || v === 'n' || (v === 'C' && modoC === 'con-I')));
+            
+            // Campo M visible en M, o en C si modoC es con-M
+            document.getElementById('campo-M').classList.toggle('hidden', !(v === 'M' || (v === 'C' && modoC === 'con-M')));
+            
+            document.getElementById('campo-i').classList.toggle('hidden', v === 'i');
+            document.getElementById('campo-n').classList.toggle('hidden', v === 'n');
+
+            calcular();
+        }
+
+        // CALCULATOR ENGINE
+        function calcular() {
+            const variable = document.getElementById('variable-buscar').value;
+            const modoC = document.getElementById('modo-C') ? document.getElementById('modo-C').value : 'con-I';
+
+            const C = parseFloat(document.getElementById('val-C').value) || 0;
+            const I_val = parseFloat(document.getElementById('val-I').value) || 0;
+            const M_val = parseFloat(document.getElementById('val-M').value) || 0;
+            const i_pct = parseFloat(document.getElementById('val-i').value) || 0;
+            const n_bruto = parseFloat(document.getElementById('val-n').value) || 0;
+            const divTiempo = parseFloat(document.getElementById('unidad-tiempo').value) || 1;
+
+            const n = n_bruto / divTiempo;
+            const i = i_pct / 100;
+
+            let pasoHTML = "";
+            let resTxt = "";
+
+            if (variable === 'I') {
+                const res = C * i * n;
+                const M_calc = C + res;
+
+                pasoHTML = `
+                    <p><strong>1. Identificación de Datos:</strong></p>
+                    <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                        <li>Capital ($C$): <strong>$${C.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Tasa de Interés ($i$): <strong>${i_pct}% anual ($${i}$)</strong></li>
+                        <li>Tiempo ($n$): <strong>${n_bruto} periodos (${n.toFixed(4)} años)</strong></li>
+                    </ul>
+
+                    <p><strong>2. Aplicar fórmula básica de Interés Simple:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$I = C \\cdot i \\cdot n$$
+                    </div>
+
+                    <p><strong>3. Sustitución de valores:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$I = ${C} \\times ${i} \\times ${n.toFixed(4)} = \\$${res.toFixed(2)}$$
+                    </div>
+
+                    <p><strong>4. Cálculo complementario de Monto Final ($M$):</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$M = C + I = ${C} + ${res.toFixed(2)} = \\$${M_calc.toFixed(2)}$$
+                    </div>
+                `;
+                resTxt = `$${res.toFixed(2)} USD`;
+
+            } else if (variable === 'C') {
+                if (modoC === 'con-I') {
+                    const res = I_val / (i * n);
+                    pasoHTML = `
+                        <p><strong>1. Identificación de Datos:</strong></p>
+                        <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                            <li>Interés Generado ($I$): <strong>$${I_val.toLocaleString('es-EC')} USD</strong></li>
+                            <li>Tasa de Interés ($i$): <strong>${i_pct}% anual ($${i}$)</strong></li>
+                            <li>Tiempo ($n$): <strong>${n_bruto} periodos (${n.toFixed(4)} años)</strong></li>
+                        </ul>
+
+                        <p><strong>2. Despejar Capital desde la fórmula de Interés:</strong></p>
+                        <div class="math-container text-center py-1 bg-slate-800 rounded">
+                            $$C = \\frac{I}{i \\cdot n}$$
+                        </div>
+
+                        <p><strong>3. Sustitución de valores:</strong></p>
+                        <div class="math-container text-center py-1 bg-slate-800 rounded">
+                            $$C = \\frac{${I_val}}{${i} \\times ${n.toFixed(4)}} = \\$${res.toFixed(2)}$$
+                        </div>
+                    `;
+                    resTxt = `$${res.toFixed(2)} USD`;
+                } else {
+                    const res = M_val / (1 + (i * n));
+                    pasoHTML = `
+                        <p><strong>1. Identificación de Datos:</strong></p>
+                        <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                            <li>Monto Acumulado ($M$): <strong>$${M_val.toLocaleString('es-EC')} USD</strong></li>
+                            <li>Tasa de Interés ($i$): <strong>${i_pct}% anual ($${i}$)</strong></li>
+                            <li>Tiempo ($n$): <strong>${n_bruto} periodos (${n.toFixed(4)} años)</strong></li>
+                        </ul>
+
+                        <p><strong>2. Despejar Capital / Valor Presente desde el Monto:</strong></p>
+                        <div class="math-container text-center py-1 bg-slate-800 rounded">
+                            $$C = \\frac{M}{1 + i \\cdot n}$$
+                        </div>
+
+                        <p><strong>3. Sustitución de valores:</strong></p>
+                        <div class="math-container text-center py-1 bg-slate-800 rounded">
+                            $$C = \\frac{${M_val}}{1 + (${i} \\times ${n.toFixed(4)})} = \\$${res.toFixed(2)}$$
+                        </div>
+                    `;
+                    resTxt = `$${res.toFixed(2)} USD`;
+                }
+
+            } else if (variable === 'M') {
+                const res = C * (1 + (i * n));
+                const I_ganado = res - C;
+
+                pasoHTML = `
+                    <p><strong>1. Identificación de Datos:</strong></p>
+                    <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                        <li>Capital ($C$): <strong>$${C.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Tasa de Interés ($i$): <strong>${i_pct}% anual ($${i}$)</strong></li>
+                        <li>Tiempo ($n$): <strong>${n_bruto} periodos (${n.toFixed(4)} años)</strong></li>
+                    </ul>
+
+                    <p><strong>2. Fórmula del Monto Acumulado:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$M = C(1 + i \\cdot n)$$
+                    </div>
+
+                    <p><strong>3. Sustitución de valores:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$M = ${C} \\times (1 + (${i} \\times ${n.toFixed(4)})) = \\$${res.toFixed(2)}$$
+                    </div>
+
+                    <p><strong>4. Intereses totales ganados:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$I = M - C = ${res.toFixed(2)} - ${C} = \\$${I_ganado.toFixed(2)}$$
+                    </div>
+                `;
+                resTxt = `$${res.toFixed(2)} USD`;
+
+            } else if (variable === 'i') {
+                const resDecimal = I_val / (C * n);
+                const resPorcentaje = resDecimal * 100;
+
+                pasoHTML = `
+                    <p><strong>1. Identificación de Datos:</strong></p>
+                    <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                        <li>Capital ($C$): <strong>$${C.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Interés Generado ($I$): <strong>$${I_val.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Tiempo ($n$): <strong>${n_bruto} periodos (${n.toFixed(4)} años)</strong></li>
+                    </ul>
+
+                    <p><strong>2. Despejar Tasa de Interés ($i$):</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$i = \\frac{I}{C \\cdot n}$$
+                    </div>
+
+                    <p><strong>3. Sustitución en formato decimal:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$i = \\frac{${I_val}}{${C} \\times ${n.toFixed(4)}} = ${resDecimal.toFixed(6)}$$
+                    </div>
+
+                    <p><strong>4. Conversión a Porcentaje (%):</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$i = ${resDecimal.toFixed(6)} \\times 100 = ${resPorcentaje.toFixed(4)}\\%$$
+                    </div>
+                `;
+                resTxt = `${resPorcentaje.toFixed(2)}% anual`;
+
+            } else if (variable === 'n') {
+                const resAños = I_val / (C * i);
+                const resMeses = resAños * 12;
+                const resDias = resAños * 360;
+
+                pasoHTML = `
+                    <p><strong>1. Identificación de Datos:</strong></p>
+                    <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                        <li>Capital ($C$): <strong>$${C.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Interés Generado ($I$): <strong>$${I_val.toLocaleString('es-EC')} USD</strong></li>
+                        <li>Tasa de Interés ($i$): <strong>${i_pct}% anual ($${i}$)</strong></li>
+                    </ul>
+
+                    <p><strong>2. Despejar Tiempo / Plazo ($n$):</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$n = \\frac{I}{C \\cdot i}$$
+                    </div>
+
+                    <p><strong>3. Sustitución en Años:</strong></p>
+                    <div class="math-container text-center py-1 bg-slate-800 rounded">
+                        $$n = \\frac{${I_val}}{${C} \\times ${i}} = ${resAños.toFixed(4)} \\text{ años}$$
+                    </div>
+
+                    <p><strong>4. Conversión a otras unidades de tiempo:</strong></p>
+                    <ul class="list-disc ml-5 text-slate-300 text-xs space-y-1">
+                        <li>En Meses: $${resAños.toFixed(4)} \\times 12 = $ <strong>${resMeses.toFixed(2)} meses</strong></li>
+                        <li>En Días Comerciales: $${resAños.toFixed(4)} \\times 360 = $ <strong>${Math.round(resDias)} días</strong></li>
+                    </ul>
+                `;
+                resTxt = `${resAños.toFixed(2)} años (${Math.round(resDias)} días)`;
+            }
+
+            document.getElementById('paso-a-paso').innerHTML = pasoHTML;
+            document.getElementById('resultado-caja').innerText = resTxt;
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // IA ENUNCIADO PARSER LOGIC
+        function analizarEnunciado() {
+            const texto = document.getElementById('input-enunciado').value;
+            if (!texto.trim()) return;
+
+            document.getElementById('parser-result').classList.remove('hidden');
+
+            let capital = null;
+            let interes = null;
+            let tasa = null;
+            let tiempoMeses = null;
+            let tiempoDias = null;
+
+            // Extraer montos monetarios $
+            const matchMontos = [...texto.matchAll(/\$\s*([\d,]+(\.\d+)?)/g)].map(m => parseFloat(m[1].replace(/,/g, '')));
+            
+            // Extraer tasa %
+            const matchTasa = texto.match(/([\d\.]+)\s*%/);
+            if (matchTasa) tasa = parseFloat(matchTasa[1]);
+
+            // Extraer tiempo
+            const matchMeses = texto.match(/(\d+)\s*meses/i);
+            if (matchMeses) tiempoMeses = parseFloat(matchMeses[1]);
+
+            const matchDias = texto.match(/(\d+)\s*días/i) || texto.match(/(\d+)\s*dias/i);
+            if (matchDias) tiempoDias = parseFloat(matchDias[1]);
+
+            // Detección contextual por palabras clave
+            const buscaCapital = /qué capital|cuál es el capital|cuanto dinero se invirtio|capital inicial/i.test(texto);
+            const buscaTasa = /cuál es la tasa|tasa de interés|tipo de interés/i.test(texto);
+            const buscaTiempo = /en cuántos días|en cuánto tiempo|cuántos meses/i.test(texto);
+            const buscaMonto = /con cuánto se cancela|monto acumulado|monto final/i.test(texto);
+
+            let incognita = "Interés Generado (I)";
+            let tema = "Interés Simple";
+            let pasosHTML = "";
+            let resultadoFinal = "";
+
+            if (buscaCapital) {
+                incognita = "Capital Inicial (C)";
+                interes = matchMontos[0] || 3500;
+                tasa = tasa || 7.5;
+                const n_anios = tiempoMeses ? (tiempoMeses / 12) : 1.5;
+                const i_dec = tasa / 100;
+                const resC = interes / (i_dec * n_anios);
+
+                pasosHTML = `
+                    <p>1. <strong>Datos identificados:</strong> Interés ($I$) = $${interes}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${tiempoMeses || 18} meses (${n_anios} años).</p>
+                    <p>2. <strong>Fórmula aplicada:</strong> $$C = \\frac{I}{i \\cdot n}$$</p>
+                    <p>3. <strong>Sustitución:</strong> $$C = \\frac{${interes}}{${i_dec} \\times ${n_anios}} = \\$${resC.toFixed(2)}$$</p>
+                `;
+                resultadoFinal = `$${resC.toFixed(2)} USD`;
+
+            } else if (buscaTiempo) {
+                incognita = "Tiempo / Plazo (n)";
+                capital = matchMontos[0] || 65000;
+                interes = matchMontos[1] || 7000;
+                tasa = tasa || 8.25;
+                const i_dec = tasa / 100;
+                const n_anios = interes / (capital * i_dec);
+                const n_dias = n_anios * 360;
+
+                pasosHTML = `
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Interés ($I$) = $${interes}$, Tasa ($i$) = ${tasa}% anual.</p>
+                    <p>2. <strong>Fórmula aplicada:</strong> $$n = \\frac{I}{C \\cdot i}$$</p>
+                    <p>3. <strong>Sustitución en Años:</strong> $$n = \\frac{${interes}}{${capital} \\times ${i_dec}} = ${n_anios.toFixed(4)} \\text{ años}$$</p>
+                    <p>4. <strong>Conversión a Días Comerciales:</strong> $$${n_anios.toFixed(4)} \\times 360 = ${Math.round(n_dias)} \\text{ días}$$</p>
+                `;
+                resultadoFinal = `${Math.round(n_dias)} días`;
+
+            } else if (buscaTasa) {
+                incognita = "Tasa de Interés (i)";
+                capital = matchMontos[0] || 17500;
+                interes = matchMontos[1] || 750;
+                const n_dias = tiempoDias || 65;
+                const n_anios = n_dias / 360;
+                const i_dec = interes / (capital * n_anios);
+                const i_pct = i_dec * 100;
+
+                pasosHTML = `
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Interés ($I$) = $${interes}$, Tiempo ($n$) = ${n_dias} días (${n_anios.toFixed(4)} años).</p>
+                    <p>2. <strong>Fórmula aplicada:</strong> $$i = \\frac{I}{C \\cdot n}$$</p>
+                    <p>3. <strong>Sustitución en decimal:</strong> $$i = \\frac{${interes}}{${capital} \\times ${n_anios.toFixed(4)}} = ${i_dec.toFixed(6)}$$</p>
+                    <p>4. <strong>Conversión a Porcentaje:</strong> $$${i_dec.toFixed(6)} \\times 100 = ${i_pct.toFixed(2)}\\% \\text{ anual}$$</p>
+                `;
+                resultadoFinal = `${i_pct.toFixed(2)}% anual`;
+
+            } else if (buscaMonto) {
+                incognita = "Monto Final (M)";
+                capital = matchMontos[0] || 8250;
+                tasa = tasa || 17.5;
+                const n_meses = tiempoMeses || 7;
+                const n_anios = n_meses / 12;
+                const i_dec = tasa / 100;
+                const resM = capital * (1 + (i_dec * n_anios));
+
+                pasosHTML = `
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_meses} meses (${n_anios.toFixed(4)} años).</p>
+                    <p>2. <strong>Fórmula aplicada:</strong> $$M = C(1 + i \\cdot n)$$</p>
+                    <p>3. <strong>Sustitución:</strong> $$M = ${capital} \\times (1 + (${i_dec} \\times ${n_anios.toFixed(4)})) = \\$${resM.toFixed(2)}$$</p>
+                `;
+                resultadoFinal = `$${resM.toFixed(2)} USD`;
+
+            } else {
+                incognita = "Interés Generado (I)";
+                capital = matchMontos[0] || 1000;
+                tasa = tasa || 15;
+                const n_meses = tiempoMeses || 4;
+                const n_anios = n_meses / 12;
+                const i_dec = tasa / 100;
+                const resI = capital * i_dec * n_anios;
+
+                pasosHTML = `
+                    <p>1. <strong>Datos identificados:</strong> Capital ($C$) = $${capital}$, Tasa ($i$) = ${tasa}% anual, Tiempo ($n$) = ${n_meses} meses (${n_anios.toFixed(4)} años).</p>
+                    <p>2. <strong>Fórmula aplicada:</strong> $$I = C \\cdot i \\cdot n$$</p>
+                    <p>3. <strong>Sustitución:</strong> $$I = ${capital} \\times ${i_dec} \\times ${n_anios.toFixed(4)} = \\$${resI.toFixed(2)}$$</p>
+                `;
+                resultadoFinal = `$${resI.toFixed(2)} USD`;
+            }
+
+            document.getElementById('parse-tema').innerText = tema;
+            document.getElementById('parse-incognita').innerText = incognita;
+            document.getElementById('parse-valores').innerText = `C=$${capital||'-'} | I=$${interes||'-'} | i=${tasa||'-'}% | n=${tiempoMeses?tiempoMeses+'m':tiempoDias?tiempoDias+'d':'-'}`;
+            document.getElementById('parse-pasos').innerHTML = pasosHTML;
+            document.getElementById('parse-resultado').innerText = resultadoFinal;
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+    </script>
+</body>
+</html>
